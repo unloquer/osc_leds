@@ -40,7 +40,7 @@ OSCErrorCode error;
 
 void setup(){
   //initilize FastLED library
-  FastLED.addLeds<WS2812B, DATA_PIN>(leds, NUMBEROFPIXELS);
+  FastLED.addLeds<DOTSTAR, DATA_PIN, CLOCK_PIN, GRB>(leds, NUMBEROFPIXELS);
 
   Serial.begin(115200);
   Serial.println(" ");
