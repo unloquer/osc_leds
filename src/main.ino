@@ -8,8 +8,8 @@
 
 const int duration = 20000; //number of loops to run each animation for
 
-//#define NUMBEROFPIXELS 170 //Number of LEDs on the strip
-#define NUMBEROFPIXELS 12*9 //Number of LEDs on the strip
+#define NUMBEROFPIXELS 170 //Number of LEDs on the strip
+//#define NUMBEROFPIXELS 12*9 //Number of LEDs on the strip
 #define DATA_PIN D1 //Pin where WS281X pixels are connected
 #define CLOCK_PIN D2
 CRGB leds[NUMBEROFPIXELS];
@@ -23,14 +23,14 @@ FastLEDPainterBrush pixelbrush = FastLEDPainterBrush(&pixelcanvas); //crete brus
 // network ettings --------------
 //
 
-char ssid[] = "C3P";//"TC";
-char psswd[] = "trespatios";//"chOc0l4t1n4";
-IPAddress ip(192, 168, 0, 204);
-IPAddress gateway(192, 168, 0, 1);
+char ssid[] = "PGP";
+char psswd[] = "oasis2018";
+IPAddress ip(192, 168, 1, 204);
+IPAddress gateway(192, 168, 1, 1);
 IPAddress subnet(255, 255, 255, 0);
 
 WiFiUDP Udp;
-const IPAddress outIp(192,168,0,131);
+//const IPAddress outIp(192,168,0,131);
 const unsigned int localPort = 4001;
 
 // osc settings
@@ -40,7 +40,7 @@ OSCErrorCode error;
 
 void setup(){
   //initilize FastLED library
-  FastLED.addLeds<LPD8806, DATA_PIN, CLOCK_PIN, GRB>(leds, NUMBEROFPIXELS);
+  FastLED.addLeds<WS2812B, DATA_PIN>(leds, NUMBEROFPIXELS);
 
   Serial.begin(115200);
   Serial.println(" ");
@@ -94,8 +94,8 @@ bool available = true;
 void listen_osc_messages(OSCMessage &inc_msg) {
   recibe = inc_msg.getInt(0);
   if(recibe == 1) available = false;
-  Serial.print(recibe);
-  Serial.println(" recibe");
+  //Serial.print(recibe);
+  //Serial.println(" recibe");
 }
 
 // the following variables are unsigned longs because the time, measured in
@@ -125,8 +125,8 @@ void loop() {
         inc_msg.dispatch("/gesto/1",listen_osc_messages );
       } else {
         error = inc_msg.getError();
-        Serial.print("error: ");
-        Serial.println(error);
+        //Serial.print("error: ");
+        //Serial.println(error);
       }
     }
   }
@@ -140,7 +140,7 @@ void loop() {
     available = true;
     lastDebounceTime = millis();
     clearLeds();
-    Serial.println("ENTRA");
+    //Serial.println("ENTRA");
   }
 
   if(recibe == 1){
@@ -152,6 +152,4 @@ void loop() {
 
   yield();
 }
-
-
 
