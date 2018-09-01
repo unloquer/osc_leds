@@ -25,7 +25,9 @@ FastLEDPainterBrush pixelbrush = FastLEDPainterBrush(&pixelcanvas); //crete brus
 
 char ssid[] = "PGP";
 char psswd[] = "oasis2018";
-IPAddress ip(192, 168, 1, 204);
+// starting .204 for the static ip of the strips
+// ip add list: 145, 133, 165, 186
+IPAddress ip(192, 168, 1, 145);
 IPAddress gateway(192, 168, 1, 1);
 IPAddress subnet(255, 255, 255, 0);
 
@@ -39,8 +41,9 @@ OSCErrorCode error;
 
 
 void setup(){
+  delay(2000); //throw coal to the 
   //initilize FastLED library
-  FastLED.addLeds<WS2812B, DATA_PIN>(leds, NUMBEROFPIXELS);
+  FastLED.addLeds<DOTSTAR, DATA_PIN, CLOCK_PIN, RGB>(leds, NUMBEROFPIXELS);
 
   Serial.begin(115200);
   Serial.println(" ");
@@ -57,9 +60,9 @@ void setup(){
   //initialize the animation, this is where the magic happens:
 
   CHSV brushcolor; //the brush and the canvas operate on HSV color space only
-  brushcolor.h = 68; //zero is red in HSV. Library uses 0-255 instead of 0-360 for colors (see https://en.wikipedia.org/wiki/HSL_and_HSV)
-  brushcolor.s = 0; //full color saturation
-  brushcolor.v = 255; //about half the full brightness
+  brushcolor.h = 219; //zero is red in HSV. Library uses 0-255 instead of 0-360 for colors (see https://en.wikipedia.org/wiki/HSL_and_HSV)
+  brushcolor.s = 88; //full color saturation
+  brushcolor.v = 80; //about half the full brightness
 
   pixelbrush.setSpeed(3000); //set the brush movement speed (4096 means to move one pixel per update)
   pixelbrush.setColor(brushcolor); //set the brush color
@@ -70,7 +73,7 @@ void setup(){
   //this sets up the brush to paint pixels in red, the pixels fade out after they are painted (the brush is the size of one pixel and can only one pixel per brush update, see other examples to paint multiple pixels at once)
 
   // Static IP Setup Info Here...
-  WiFi.config(ip, gateway, subnet);
+ // WiFi.config(ip, gateway, subnet);
   WiFi.begin(ssid,psswd);
 
   while(WiFi.status() != WL_CONNECTED) {
